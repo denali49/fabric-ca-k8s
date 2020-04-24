@@ -20,8 +20,10 @@ Learn how to configure and deploy a Hyperledger Fabric Certificate Authority on 
  - Membership Service Provider (MSP)
 
 ### **Step 1:** Clone the repo and cd into the directory
-### `git clone https://github.com/denali49/fabric-ca-k8s.git && cd fabric-ca-k8s` 
+```
+git clone https://github.com/denali49/fabric-ca-k8s.git && cd fabric-ca-k8s
 
+```
 ### **Step 2:** Install Minikube [Install Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/)
 
 ### **Step 3:** Verify minikube installation and that it is running on your local machine
