@@ -1,42 +1,23 @@
----
-apiVersion: v1
-kind: Service
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: fabric-ca-k8s
 spec:
-  selector:
-    app: fabric-ca
-  ports:
-  - protocol: TCP
-    port: 7054
-    targetPort: 7054
-    name: https    
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: fabric-ca-k8s
-  labels: 
-    app: fabric-ca-k8s
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: fabric-ca-k8s
+  backoffLimit: 1
   template:
     metadata:
-      labels:
-        app: fabric-ca-k8s
+      name: fabric-ca-k8s
     spec:
+      restartPolicy: "Never"
       volumes:
       - name: redis-storage
         persistentVolumeClaim:
           claimName: mypvc
-
+      
       containers:
       - name: fabric-ca-k8s
         image: hyperledger/fabric-ca:1.4.4
-        command: ["sh", "-c", "sleep 1 && fabric-ca-server start -d --cfg.identities.allowremove --port 7054"]
+        command: ["sh", "-c", "sleep 1 && fabric-ca-server init -b admin:adminpw -d --cfg.identities.allowremove --port 7054"]
         env:
         - name: FABRIC_CA_SERVER_HOME
           value: /shared/hyperledger/fabric-ca/k8s
@@ -51,8 +32,8 @@ spec:
         #   value: "true"
         - name: GODEBUG
           value: "netdns=go"
+        ports:
+        - containerPort: 7054
         volumeMounts:
         - mountPath: /shared
           name: redis-storage
-        ports:
-        - containerPort: 7054
