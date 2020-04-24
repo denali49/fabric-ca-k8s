@@ -25,7 +25,8 @@ Learn how to configure and deploy a Hyperledger Fabric Certificate Authority on 
 - Mac OS Catalina 10.15.4
 - minikube version: v1.9.2
 - Docker version 19.03.8
-- ![Alt text](/assets/dockerdesktop.png?raw=true "Docker Desktop About")
+
+![Alt text](/assets/dockerdesktop.png?raw=true "Docker Desktop About")
 
 ### **Step 1:** Clone the repo and cd into the directory
 ```
