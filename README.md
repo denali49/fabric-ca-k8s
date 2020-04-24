@@ -21,7 +21,7 @@ Learn how to configure and deploy a Hyperledger Fabric Certificate Authority on 
 
 # Step-by-Step Tutorial 
 ## A note about the environment this tutorial was developed in (your results may differ and you may have to troubleshoot accordingly)
-### At the time of this update, this tutorial was develeped using:
+### At the time of this update, this tutorial was developed using:
 - Mac OS Catalina 10.15.4
 - minikube version: v1.9.2
 - Docker version 19.03.8
