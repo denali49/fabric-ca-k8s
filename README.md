@@ -35,6 +35,13 @@ git clone https://github.com/denali49/fabric-ca-k8s.git && cd fabric-ca-k8s
 ### **Step 2:** Install Minikube on your local machine or enable it in Docker Desktop
 If you run Docker Desktop, there is a setting that allows you to enable Kubernetes in Docker Desktop.
 
+![Alt text](/assets/k8sdockerenable.png?raw=true "Docker Desktop Preferences")
+
+
+![Alt text](/assets/dockerdesktop.png?raw=true "Docker Desktop Enable Kubernetes")
+
+If you do not have Docker Desktop with Kubernetes enabled, install minikube.
+
 [Install Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/)
 
 ### **Step 3:** Verify minikube installation and that it is running on your local machine
