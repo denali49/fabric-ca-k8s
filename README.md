@@ -21,8 +21,7 @@ Note: This tutorial assumes a novice level of experience with Kubernetes and kub
  - Fabric CA Client
  - Membership Service Provider (MSP)
 
-# Step-by-Step Tutorial 
-## A note about the environment this tutorial was developed in (your results may differ and you may have to troubleshoot accordingly)
+## Step-by-Step Tutorial 
 ### At the time of this update, this tutorial was developed using:
 - Mac OS Catalina 10.15.4
 - minikube version: v1.9.2
