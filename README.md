@@ -72,6 +72,7 @@ Now run the following kubectl command in the terminal to provision a persistent 
 kubectl apply -f setup-pvc.yaml
 ```
 The expected output is similar to below.
+
 ![Alt text](/assets/createpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
 
 Now run the following command in the terminal to confirm your persistent volume claim has been set up.
@@ -79,6 +80,7 @@ Now run the following command in the terminal to confirm your persistent volume 
 kubectl get pvc
 ```
 The expected output from the above command should be similar to:
+
 ![Alt text](/assets/getpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
 
 ### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
