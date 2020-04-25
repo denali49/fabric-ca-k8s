@@ -83,6 +83,23 @@ The expected output from the above command should be similar to:
 
 ![Alt text](/assets/getpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
 
+In the terminal, execute the following command to set up a storage volume that is connected to the PVC we created in the previous step.  This is one method of persisting data in the cloud even if your Kubernetes pods restart.  Important Note: Data will NOT persist if you delete the persistent volume claim!  If you plan to start over and you run `minikube delete` your persistent volume and persistent volume claim will be deleted!
+
+```
+kubectl apply -f redis-storage.yaml
+```
+Expected output after running the above command is similar to below.
+
+![Alt text](/assets/redispodcreated.png?raw=true "storage pod created")
+
+In the terminal, run the following command to check the status of the pod.
+```
+kubectl get pod
+```
+Expected output after running the above command is similar to below.
+
+![Alt text](/assets/redispodrun.png?raw=true "redis pod status")
+
 ### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
 
 ### **Step 6:** Deploy the fabric-ca-server and perform identity management tasks
