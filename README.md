@@ -5,6 +5,8 @@ Deploy a Hyperledger Fabric Certificate Authority using Native Kubernetes (k8s) 
 Learn how to configure and deploy a Hyperledger Fabric Certificate Authority on Kubernetes for a production network and manage cryptographic identities without using cryptogen.
 
 ## **Key Concepts**
+Note: This tutorial assumes a novice level of experience with Kubernetes and kubectl.  We are going to make it easy enough that if you do not have this experience, you can learn it on the fly.  Please refer to the Kubernetes links throughout this tutorial for additional information if you get stuck, see errors, or have difficulties.
+
 **Kubernetes** (a.k.a. k8s) [Kubernetes Documentation](https://kubernetes.io/)
 - minikube (for deployment of a k8s cluster on your local machine for testing and this tutorial) 
 - kubectl cli commands and help
@@ -32,6 +34,8 @@ Learn how to configure and deploy a Hyperledger Fabric Certificate Authority on 
 ```
 git clone https://github.com/denali49/fabric-ca-k8s.git && cd fabric-ca-k8s
 ```
+NOTE: All of the commands in this tutorial must be run from this directory or they will not work!
+
 ### **Step 2:** Install Minikube on your local machine or enable it in Docker Desktop
 If you run Docker Desktop, there is a setting that allows you to enable Kubernetes in Docker Desktop.
 
