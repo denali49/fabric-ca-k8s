@@ -38,13 +38,30 @@ If you run Docker Desktop, there is a setting that allows you to enable Kubernet
 ![Alt text](/assets/k8sdockerenable.png?raw=true "Docker Desktop Preferences")
 
 
-![Alt text](/assets/dockerdesktop.png?raw=true "Docker Desktop Enable Kubernetes")
+![Alt text](/assets/dockerdesktopk8s.png?raw=true "Docker Desktop Enable Kubernetes")
 
 If you do not have Docker Desktop with Kubernetes enabled, install minikube.
 
 [Install Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/)
 
+In the terminal, run the following command.
+```
+minikube start
+
+```
+Expected output should be similar to this.  NOTE: As of this update, the hyperkit driver was depracated so use the flag --driver=virtualbox if you get an error message.
+
+![Alt text](/assets/minikubestartoutput.png?raw=true "output from minikube start command")
+
 ### **Step 3:** Verify minikube installation and that it is running on your local machine
+Run the following command in your terminal.
+```
+kubectl get all
+```
+Expected output is similar to below, note your ClusterIP will be different.
+
+![Alt text](/assets/minikubeconfirm.png?raw=true "output from `kubectl get all` command")
+
 
 ### **Step 4:** Set up the persistent volume claim and provision storage
 
