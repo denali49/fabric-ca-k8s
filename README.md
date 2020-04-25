@@ -47,9 +47,9 @@ If you do not have Docker Desktop with Kubernetes enabled, install minikube.
 In the terminal, run the following command.
 ```
 minikube start
-
 ```
-Expected output should be similar to this.  NOTE: As of this update, the hyperkit driver was depracated so use the flag --driver=virtualbox if you get an error message.
+Expected output should be similar to this.  NOTE: As of this update, the hyperkit driver was depracated so use the flag 
+--driver=virtualbox if you get an error message. Check [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) for details on which vitualization drivers are available.
 
 ![Alt text](/assets/minikubestartoutput.png?raw=true "output from minikube start command")
 
@@ -64,6 +64,19 @@ Expected output is similar to below, note your ClusterIP will be different.
 
 
 ### **Step 4:** Set up the persistent volume claim and provision storage
+Now run the following kubectl command in the terminal to provision a persistent volume claim (PVC).
+```
+kubectl apply -f setup-pvc.yaml
+```
+The expected output is similar to below.
+![Alt text](/assets/createpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
+
+Now run the following command in the terminal to confirm your persistent volume claim has been set up.
+```
+kubectl get pvc
+```
+The expected output from the above command should be similar to:
+![Alt text](/assets/getpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
 
 ### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
 
