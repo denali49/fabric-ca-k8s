@@ -101,5 +101,7 @@ Expected output after running the above command is similar to below.
 ![Alt text](/assets/redispodrun.png?raw=true "redis pod status")
 
 ### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
+still building this out as of 4/25/20 WIP
 
 ### **Step 6:** Deploy the fabric-ca-server and perform identity management tasks
+still building this out as of 4/25/20 WIP
