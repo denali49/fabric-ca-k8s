@@ -120,7 +120,7 @@ Note the convention of the command structure is "pod-name:path-to-target-file" f
 ```
 kubectl cp redis:/data/redis/hyperledger/fabric-ca/k8s/fabric-ca-server-config.yaml $PWD/fabric-ca-server-config.yaml
 ```
-Edit the CSR section of the fabric-ca-server-config.yaml file by changing the State (S) from "North Carolina" to "Texas" and the Organization (O) to Hyperchain Labs and the Organizational Unit (OU) to Energy.  Next, run the following command in the terminal to copy our modified file back to the container so we can use it to start the Fabric CA Server.
+Edit the CSR section of the fabric-ca-server-config.yaml file by changing the State (S) from "North Carolina" to "Texas" and the Organization (O) to Hyperchain Labs and the Organizational Unit (OU) to Energy and then save your changes.  Next, run the following command in the terminal to copy our modified file back to the container so we can use it to start the Fabric CA Server.
 ```
 kubectl cp $PWD/fabric-ca-server-config.yaml redis:/data/redis/hyperledger/fabric-ca/k8s/fabric-ca-server-config.yaml
 ```
@@ -141,3 +141,20 @@ Leave the container by running the following command while still inside the cont
 exit
 ```
 ### **Step 6:** Deploy the fabric-ca-server and perform identity management tasks
+Now we are ready to start our Fabric CA Server and interact with it by runnning the following command in the terminal:
+```
+kubectl apply -f fabric-ca-deployment.yaml
+```
+Then make sure it is running by executing:
+```
+kubectl get pod
+```
+You can then get the logs of the CA Server by running:
+```
+kubectl logs [paste your pod name from the output of the get pod command, paste it here, and hit enter]
+```
+Your the last few lines of the log indicating successful server start should be similar to this.
+![Alt text](/assets/successlog.png?raw=true "Successful Fabric CA Server start")
+
+Near the top of the log output, you should see the custom values you entered into the fabric-ca-server-config.yaml file.
+![Alt text](/assets/configeditoutput.png?raw=true "New config values")
