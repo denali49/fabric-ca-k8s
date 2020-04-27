@@ -163,3 +163,23 @@ Near the top of the log output, you should see the custom values you entered int
 Now we are ready to interact with the Fabric CA Server.  First we will 'enroll' the CA admin that was listed in the registry section of the fabric-ca-server-config.yaml file that we modified.  We could have changed it to something else, but note that it was admin:adminpw.  Since this identity was 'registered' automatically by the start up of the server reading from the config file, we simply need to enroll the admin identity.  
 
 For all other idenities we wish to add, we will need to register them first, then enroll them.  For more information on identity management, please see the Hyperledger Fabric CA Server and Client documentation.
+
+Let's get started by getting into the fabric CA container and exporting some environment variables that our client will need.  Find out the pod name of the running pod for the CA by entering the following command:
+```
+kubectl get pod
+```
+Next, copy the full pod name because we are going to paste it into our next command when we do `kubectl exec -it [YOUR POD NAME PASTED HERE] -- /binbash`.
+In my case (for reference only, do not copy and paste this!!) it was:
+```
+kubectl exec -it fabric-ca-k8s-696566c87f-xz9hx -- /bin/bash
+```
+Again, make sure you copy the running pod and NOT the completed job as they have similar names.
+
+Once you are in the container, export the FABRIC_CA_CLIENT_HOME environment variable, then enroll the admin identity that was registered during the server start.
+NOTE: If TLS were enabled, you would also have to export the location of the FABRIC_CA_CLIENT_TLS_CERTFILES
+```
+export FABRIC_CA_CLIENT_HOME=/shared/hyperledger/fabric-ca/k8s
+fabric-ca-client enroll -d -u http://admin:adminpw@0.0.0.0:7054
+```
+You should see an output similar to this:
+![Alt text](/assets/enrolladminoutput.png?raw=true "Enroll admin ouput")
