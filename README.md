@@ -175,11 +175,52 @@ kubectl exec -it fabric-ca-k8s-696566c87f-xz9hx -- /bin/bash
 ```
 Again, make sure you copy the running pod and NOT the completed job as they have similar names.
 
-Once you are in the container, export the FABRIC_CA_CLIENT_HOME environment variable, then enroll the admin identity that was registered during the server start.
+Once you are in the container, make a directory for where we want to store our certs, then export the FABRIC_CA_CLIENT_HOME environment variable that points to this location, then enroll the admin identity that was registered during the server start.
 NOTE: If TLS were enabled, you would also have to export the location of the FABRIC_CA_CLIENT_TLS_CERTFILES
 ```
-export FABRIC_CA_CLIENT_HOME=/shared/hyperledger/fabric-ca/k8s
+mkdir -p /shared/artifacts/org1/ca/admin
+export FABRIC_CA_CLIENT_HOME=export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/ca/admin
 fabric-ca-client enroll -d -u http://admin:adminpw@0.0.0.0:7054
 ```
 You should see an output similar to this:
+
 ![Alt text](/assets/enrolladminoutput.png?raw=true "Enroll admin ouput")
+
+Now that you have a running Fabric CA in Kubernetes, let's register and enroll a peer node, org-admin, and user. Then we will practice modifying the user credentials, and listing and storing the user certs!
+For this part of the tutorial, it is recommended that you refer to the [Hyperledger Fabric CA documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html) to see and become familiar with the various commands and attributes of managing cryptographic identities.  
+
+Still in the fabric-ca container, run the following command to register an org-admin with specific attributes (type and attributes are important to understand, so I encourage you to thoroughly review the Hyperledger Fabric CA docs!):
+```
+fabric-ca-client register -d --id.name admin-org1 --id.secret org1AdminPW --id.type admin --id.attrs "hf.Registrar.Roles=*,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" -u http://0.0.0.0:7054
+```
+Note the output will contain the listing of the identity password and attributes.
+
+Now let's register a peer node:
+```
+fabric-ca-client register -d --id.name org1peer1 --id.secret org1peer1PW --id.type peer -u http://0.0.0.0:7054
+```
+And finally, we'll register a user:
+```
+fabric-ca-client register -d --id.name user --id.secret userpw --id.type client -u http://0.0.0.0:7054
+```
+
+Now that we have registered our idenities and peer node, we need to enroll them.  Let's start by enrolling the admin identity:
+```
+fabric-ca-client enroll -d -u http://admin-org1:org1AdminPW@0.0.0.0:7054
+```
+Now let's enroll the peer node identity:
+```
+fabric-ca-client enroll -d -u http://org1peer1:org1peer1PW@0.0.0.0:7054
+```
+And finally, let's enroll the user identity:
+```
+fabric-ca-client enroll -d -u http://user:userpw@0.0.0.0:7054
+```
+Now let's practice with some fabric-ca-client commands.  First, let's list all the identities:
+```
+fabric-ca-client identity list
+```
+The output of this command is that we get an authorization failure! Why did this happen? Security!  We need to validate that the identity we are using to run these client commands is actually authorized to be doing this.  For this to work, we need to export an environment variable:
+```
+export FABRIC_CA_CLIENT_MSPCONFIGPATH=/shared/hyperledger/fabric-ca/k8s/msp
+```
