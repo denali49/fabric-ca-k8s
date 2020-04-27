@@ -220,7 +220,3 @@ Now let's practice with some fabric-ca-client commands.  First, let's list all t
 ```
 fabric-ca-client identity list
 ```
-The output of this command is that we get an authorization failure! Why did this happen? Security!  We need to validate that the identity we are using to run these client commands is actually authorized to be doing this.  For this to work, we need to export an environment variable:
-```
-export FABRIC_CA_CLIENT_MSPCONFIGPATH=/shared/hyperledger/fabric-ca/k8s/msp
-```
