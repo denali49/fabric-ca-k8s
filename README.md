@@ -101,7 +101,27 @@ Expected output after running the above command is similar to below.
 ![Alt text](/assets/redispodrun.png?raw=true "redis pod status")
 
 ### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
-still building this out as of 4/25/20 WIP
+In the terminal, execute the following command to run a kubernetes job that will 'init' the Fabric CA Server and generate a template file that we can customize.  
+```
+kubectl apply -f fabric-ca-server-initJob.yaml
+```
+To check the status of the kubernetes job, execute the following command:
+```
+kubectl get pod
+```
+If successful, the job should indicated that it completed with an output similar to below.
 
+![Alt text](/assets/initjobcompletion.png?raw=true "Init job completion status")
+
+Note that a Kubernetes Job runs to completion if successful, and a deployment stays running.  
+
+Next we are going to copy the fabric-ca-server-config.yaml file from the container to our local machine, modify it, then copy it back to the container so that when we start the server, our customized variables will be read.  To do this, we use a `kubectl cp` command, specifying the container and location of the target file in the container.
+Note the convention of the command structure is <pod>:<path-to-target-file> followed by a space, then the target location you would like to copy the file to. 
+```
+kubectl cp redis:/data/redis/hyperledger/fabric-ca/k8s/fabric-ca-server-config.yaml $PWD/fabric-ca-server-config.yaml
+```
+Edit the CSR section of the fabric-ca-server-config.yaml file by changing the State (S) from "North Carolina" to "Texas" and the Organization (O) to Hyperchain Labs and the Organizational Unit (OU) to Energy.  Next, run the following command in the terminal to copy our modified file back to the container so we can use it to start the Fabric CA Server.
+```
+kubectl cp $PWD/fabric-ca-server-config.yaml redis:/data/redis/hyperledger/fabric-ca/k8s/fabric-ca-server-config.yaml
+```
 ### **Step 6:** Deploy the fabric-ca-server and perform identity management tasks
-still building this out as of 4/25/20 WIP
