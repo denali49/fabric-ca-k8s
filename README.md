@@ -189,7 +189,8 @@ You should see an output similar to this:
 Now that you have a running Fabric CA in Kubernetes, let's register and enroll a peer node, org-admin, and user. Then we will practice modifying the user credentials, and listing and storing the user certs!
 For this part of the tutorial, it is recommended that you refer to the [Hyperledger Fabric CA documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html) to see and become familiar with the various commands and attributes of managing cryptographic identities.  
 
-Still in the fabric-ca container, run the following command to register an org-admin with specific attributes (type and attributes are important to understand, so I encourage you to thoroughly review the Hyperledger Fabric CA docs!):
+Still in the fabric-ca container, run the following command to register an org-admin with specific attributes. 
+Note: Type and attributes are important to understand, so I encourage you to thoroughly review the Hyperledger Fabric CA docs!
 ```
 fabric-ca-client register -d --id.name admin-org1 --id.secret org1AdminPW --id.type admin --id.attrs "hf.Registrar.Roles=*,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" -u http://0.0.0.0:7054
 ```
@@ -204,19 +205,62 @@ And finally, we'll register a user:
 fabric-ca-client register -d --id.name user --id.secret userpw --id.type client -u http://0.0.0.0:7054
 ```
 
-Now that we have registered our idenities and peer node, we need to enroll them.  Let's start by enrolling the admin identity:
+Now that we have registered our idenities and peer node, we need to enroll them.  We will need to make an directory so the server output can store the credentials in what will become our msp folder.  To do this, we make a directory and then point our FABRIC_CA_CLIENT_HOME export at it.
+Let's start by enrolling the admin identity:
 ```
+export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/org1admin
 fabric-ca-client enroll -d -u http://admin-org1:org1AdminPW@0.0.0.0:7054
 ```
 Now let's enroll the peer node identity:
 ```
+export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/peer1
 fabric-ca-client enroll -d -u http://org1peer1:org1peer1PW@0.0.0.0:7054
 ```
 And finally, let's enroll the user identity:
 ```
+export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/user
 fabric-ca-client enroll -d -u http://user:userpw@0.0.0.0:7054
 ```
 Now let's practice with some fabric-ca-client commands.  First, let's list all the identities:
 ```
 fabric-ca-client identity list
+```
+Expected output is an error!  Why? The last variable export we did was for the user identity, so we need to prove that we have the access and authority to run these commands because the user identity is not authorized to.  In short, it is a security measure made possible by cryptographic identities and is the foundation of a secure blockchain network.  We should be worried if we did not get this error.
+
+How do we list the identities? By exporting the variable that proves we have access to the admin's signing certificate.  We do this by exporting the variable that points back to the admin cert location BEFORE we start running the fabric-ca-client commands.
+```
+export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/ca/admin
+fabric-ca-client identity list
+```
+The expected output is a listing of the idenities and their attributes registered with this Certificate Authority.  
+If you inspect closely the output of the identity list command we just ran, you'll notice that none of our idenities are affilliated with an org.  Let's change that by modifying the identities to add an affiliation to org1.
+```
+fabric-ca-client identity modify admin-org1 --affiliation org1
+```
+The expected output is that we 'Successfully modified identity'.  Now we can run the identity list command again and inspect the output to make sure that org1admin identity is indeed affiliated to org1.
+```
+fabric-ca-client identity list --id admin-org1
+```
+Inspect the output of the command and you will see that admin-org1 is now affiliated with org1!
+Now let's repeat the steps for the peer node and the user by running each command in the terminal one at a time.
+```
+fabric-ca-client identity modify org1peer1 --affiliation org1
+fabric-ca-client identity list --id org1peer1
+```
+The node org1peer1 is now affiliated with org1.  
+
+Finally, let's affiliate the user identity with org1.department1
+```
+fabric-ca-client identity modify user --affiliation org1.department1
+fabric-ca-client identity list --id user
+```
+The user identity is now affiliated with org1.department1.  
+
+Congratulations! You have successfully set up your own Hyperledger Fabric Certificate Authority on Kubernetes, modified the Fabric CA Server configuration file, registered and enrolled identities, and modified identities and inspected the result.  You are now ready to explore running your own Fabric Certificate Authority in production systems without using Cryptogen! 
+
+Feel free to continue referencing the Hyperledger Fabric CA documentation and practicing the fabric-ca-client commands against this running instance.  
+If you are ready to cleanup, run the following commands:
+Type 'exit' to exit the running pod session, then:
+```
+minikube delete
 ```
