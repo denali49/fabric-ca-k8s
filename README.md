@@ -150,11 +150,16 @@ Then make sure it is running by executing:
 kubectl get pod
 ```
 You can then get the logs of the CA Server by running:
-```
+
 kubectl logs [paste your pod name from the output of the get pod command, paste it here, and hit enter]
-```
+So in my case, it was 'kubectl logs fabric-ca-k8s-696566c87f-xz9hx'.  Make sure you copy the name of the fabric-ca-k8s deployment that is 'running' and NOT the fabric-ca-k8s job that is 'completed'.
+
 Your the last few lines of the log indicating successful server start should be similar to this.
 ![Alt text](/assets/successlog.png?raw=true "Successful Fabric CA Server start")
 
 Near the top of the log output, you should see the custom values you entered into the fabric-ca-server-config.yaml file.
 ![Alt text](/assets/configeditoutput.png?raw=true "New config values")
+
+Now we are ready to interact with the Fabric CA Server.  First we will 'enroll' the CA admin that was listed in the registry section of the fabric-ca-server-config.yaml file that we modified.  We could have changed it to something else, but note that it was admin:adminpw.  Since this identity was 'registered' automatically by the start up of the server reading from the config file, we simply need to enroll the admin identity.  
+
+For all other idenities we wish to add, we will need to register them first, then enroll them.  For more information on identity management, please see the Hyperledger Fabric CA Server and Client documentation.
