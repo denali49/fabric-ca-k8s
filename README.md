@@ -27,7 +27,7 @@ Note: This tutorial assumes a novice level of experience with Kubernetes and kub
 - minikube version: v1.9.2
 - Docker version 19.03.8
 
-![Alt text](/assets/dockerdesktop.png?raw=true "Docker Desktop About")
+![The Docker Desktop About window print](/assets/dockerdesktop.png?raw=true "Docker Desktop About")
 
 ### **Step 1:** Clone the repo and cd into the directory
 ```
@@ -38,10 +38,10 @@ NOTE: All of the commands in this tutorial must be run from this directory or th
 ### **Step 2:** Install Minikube on your local machine or enable it in Docker Desktop
 If you run Docker Desktop, there is a setting that allows you to enable Kubernetes in Docker Desktop.
 
-![Alt text](/assets/k8sdockerenable.png?raw=true "Docker Desktop Preferences")
+![Docker Desktop Preferences Screenshot](/assets/k8sdockerenable.png?raw=true "Docker Desktop Preferences")
 
 
-![Alt text](/assets/dockerdesktopk8s.png?raw=true "Docker Desktop Enable Kubernetes")
+![Docker Desktop Kubernetes Enable button in Docker Desktop Preferences Screenshot](/assets/dockerdesktopk8s.png?raw=true "Docker Desktop Enable Kubernetes")
 
 If you do not have Docker Desktop with Kubernetes enabled, install minikube.
 
@@ -54,7 +54,7 @@ minikube start
 Expected output should be similar to this.  NOTE: As of this update, the hyperkit driver was depracated so use the flag 
 --driver=virtualbox if you get an error message. Check [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) for details on which vitualization drivers are available.
 
-![Alt text](/assets/minikubestartoutput.png?raw=true "output from minikube start command")
+![Screenshot of output from the minikube start command](/assets/minikubestartoutput.png?raw=true "output from minikube start command")
 
 ### **Step 3:** Verify minikube installation and that it is running on your local machine
 Run the following command in your terminal.
@@ -63,7 +63,7 @@ kubectl get all
 ```
 Expected output is similar to below, note your ClusterIP will be different.
 
-![Alt text](/assets/minikubeconfirm.png?raw=true "output from `kubectl get all` command")
+![Screenshot of output from the kubectl get all command](/assets/minikubeconfirm.png?raw=true "output from `kubectl get all` command")
 
 
 ### **Step 4:** Set up the persistent volume claim and provision storage
@@ -73,7 +73,7 @@ kubectl apply -f setup-pvc.yaml
 ```
 The expected output is similar to below.
 
-![Alt text](/assets/createpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
+![Screeshot of expected output setup-pvc.yaml](/assets/createpvcexpectedoutput.png?raw=true "output from command")
 
 Now run the following command in the terminal to confirm your persistent volume claim has been set up.
 ```
@@ -81,7 +81,7 @@ kubectl get pvc
 ```
 The expected output from the above command should be similar to:
 
-![Alt text](/assets/getpvcexpectedoutput.png?raw=true "output from `kubectl get all` command")
+![Screenshot of kubectl get pvc output](/assets/getpvcexpectedoutput.png?raw=true "output from `kubectl get pvc` command")
 
 In the terminal, execute the following command to set up a storage volume that is connected to the PVC we created in the previous step.  This is one method of persisting data in the cloud even if your Kubernetes pods restart.  Important Note: Data will NOT persist if you delete the persistent volume claim!  If you plan to start over and you run `minikube delete` your persistent volume and persistent volume claim will be deleted!
 
@@ -90,7 +90,7 @@ kubectl apply -f redis-storage.yaml
 ```
 Expected output after running the above command is similar to below.
 
-![Alt text](/assets/redispodcreated.png?raw=true "storage pod created")
+![Screenshot of pod creation terminal output](/assets/redispodcreated.png?raw=true "storage pod created")
 
 In the terminal, run the following command to check the status of the pod.
 ```
@@ -98,7 +98,7 @@ kubectl get pod
 ```
 Expected output after running the above command is similar to below.
 
-![Alt text](/assets/redispodrun.png?raw=true "redis pod status")
+![Screenshot of redis pod status](/assets/redispodrun.png?raw=true "redis pod status")
 
 ### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
 In the terminal, execute the following command to run a kubernetes job that will 'init' the Fabric CA Server and generate a template file that we can customize.  
@@ -111,7 +111,7 @@ kubectl get pod
 ```
 If successful, the job should indicated that it completed with an output similar to below.
 
-![Alt text](/assets/initjobcompletion.png?raw=true "Init job completion status")
+![Screenshot of init job completion status](/assets/initjobcompletion.png?raw=true "Init job completion status")
 
 Note that a Kubernetes Job runs to completion if successful, and a deployment stays running.  
 
@@ -155,10 +155,10 @@ kubectl logs [paste your pod name from the output of the get pod command, paste 
 So in my case, it was 'kubectl logs fabric-ca-k8s-696566c87f-xz9hx'.  Make sure you copy the name of the fabric-ca-k8s deployment that is 'running' and NOT the fabric-ca-k8s job that is 'completed'.
 
 Your the last few lines of the log indicating successful server start should be similar to this.
-![Alt text](/assets/successlog.png?raw=true "Successful Fabric CA Server start")
+![Screenshot of successful server start](/assets/successlog.png?raw=true "Successful Fabric CA Server start")
 
 Near the top of the log output, you should see the custom values you entered into the fabric-ca-server-config.yaml file.
-![Alt text](/assets/configeditoutput.png?raw=true "New config values")
+![Screenshot of new config values after edit](/assets/configeditoutput.png?raw=true "New config values")
 
 Now we are ready to interact with the Fabric CA Server.  First we will 'enroll' the CA admin that was listed in the registry section of the fabric-ca-server-config.yaml file that we modified.  We could have changed it to something else, but note that it was admin:adminpw.  Since this identity was 'registered' automatically by the start up of the server reading from the config file, we simply need to enroll the admin identity.  
 
@@ -184,7 +184,7 @@ fabric-ca-client enroll -d -u http://admin:adminpw@0.0.0.0:7054
 ```
 You should see an output similar to this:
 
-![Alt text](/assets/enrolladminoutput.png?raw=true "Enroll admin ouput")
+![Screenshot of output from enroll admin command](/assets/enrolladminoutput.png?raw=true "Enroll admin ouput")
 
 Now that you have a running Fabric CA in Kubernetes, let's register and enroll a peer node, org-admin, and user. Then we will practice modifying the user credentials, and listing and storing the user certs!
 For this part of the tutorial, it is recommended that you refer to the [Hyperledger Fabric CA documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html) to see and become familiar with the various commands and attributes of managing cryptographic identities.  
