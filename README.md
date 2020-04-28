@@ -51,8 +51,7 @@ In the terminal, run the following command.
 ```
 minikube start
 ```
-Expected output should be similar to this.  NOTE: As of this update, the hyperkit driver was depracated so use the flag 
---driver=virtualbox if you get an error message. Check [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) for details on which vitualization drivers are available.
+Expected output should be similar to this.  ***NOTE: As of this update, the hyperkit driver was depracated so use the flag --driver=virtualbox if you get an error message.*** Check [here](https://kubernetes.io/docs/tasks/tools/install-minikube/) for details on which vitualization drivers are available.
 
 ![Screenshot of output from the minikube start command](/assets/minikubestartoutput.png?raw=true "output from minikube start command")
 
@@ -83,7 +82,7 @@ The expected output from the above command should be similar to:
 
 ![Screenshot of kubectl get pvc output](/assets/getpvcexpectedoutput.png?raw=true "output from `kubectl get pvc` command")
 
-In the terminal, execute the following command to set up a storage volume that is connected to the PVC we created in the previous step.  This is one method of persisting data in the cloud even if your Kubernetes pods restart.  Important Note: Data will NOT persist if you delete the persistent volume claim!  If you plan to start over and you run `minikube delete` your persistent volume and persistent volume claim will be deleted!
+In the terminal, execute the following command to set up a storage volume that is connected to the PVC we created in the previous step.  This is one method of persisting data in the cloud even if your Kubernetes pods restart.  ***Important Note: Data will NOT persist if you delete the persistent volume claim!  If you plan to start over and you run `minikube delete` your persistent volume and persistent volume claim will be deleted!***
 
 ```
 kubectl apply -f redis-storage.yaml
@@ -116,11 +115,11 @@ If successful, the job should indicated that it completed with an output similar
 Note that a Kubernetes Job runs to completion if successful, and a deployment stays running.  
 
 Next we are going to copy the fabric-ca-server-config.yaml file from the container to our local machine, modify it, then copy it back to the container so that when we start the server our customized variables will be read.  To do this, we use a `kubectl cp` command, specifying the container and location of the target file in the container.
-Note the convention of the command structure is "pod-name:path-to-target-file" followed by a space, then the target location you would like to copy the file to. 
+Note the convention of the command structure is "***pod-name:path-to-target-file***" followed by a space, then the target location you would like to copy the file to. 
 ```
 kubectl cp redis:/data/redis/hyperledger/fabric-ca/k8s/fabric-ca-server-config.yaml $PWD/fabric-ca-server-config.yaml
 ```
-Edit the CSR section of the fabric-ca-server-config.yaml file by changing the State (S) from "North Carolina" to "Texas" and the Organization (O) to Hyperchain Labs and the Organizational Unit (OU) to Energy and then save your changes.  Next, run the following command in the terminal to copy our modified file back to the container so we can use it to start the Fabric CA Server.
+Edit the CSR section of the fabric-ca-server-config.yaml file by changing the State (S) from ***"North Carolina"*** to ***"Texas"*** and the Organization (O) to ***Hyperchain Labs*** and the Organizational Unit (OU) to ***Energy*** and then save your changes.  Next, run the following command in the terminal to copy our modified file back to the container so we can use it to start the Fabric CA Server.
 ```
 kubectl cp $PWD/fabric-ca-server-config.yaml redis:/data/redis/hyperledger/fabric-ca/k8s/fabric-ca-server-config.yaml
 ```
@@ -152,7 +151,7 @@ kubectl get pod
 You can then get the logs of the CA Server by running:
 
 kubectl logs [paste your pod name from the output of the get pod command, paste it here, and hit enter]
-So in my case, it was 'kubectl logs fabric-ca-k8s-696566c87f-xz9hx'.  Make sure you copy the name of the fabric-ca-k8s deployment that is 'running' and NOT the fabric-ca-k8s job that is 'completed'.
+So in my case, it was 'kubectl logs fabric-ca-k8s-696566c87f-xz9hx'.  Make sure you copy the name of the fabric-ca-k8s deployment that is 'running' and ***NOT*** the fabric-ca-k8s job that is 'completed'.
 
 Your the last few lines of the log indicating successful server start should be similar to this.
 ![Screenshot of successful server start](/assets/successlog.png?raw=true "Successful Fabric CA Server start")
@@ -173,10 +172,10 @@ In my case ***(for reference only, do not copy and paste this!!)*** it was:
 ```
 kubectl exec -it fabric-ca-k8s-696566c87f-xz9hx -- /bin/bash
 ```
-Again, make sure you copy the running pod and NOT the completed job as they have similar names.
+***Again, make sure you copy the running pod and NOT the completed job as they have similar names.***
 
 Once you are in the container, make a directory for where we want to store our certs, then export the FABRIC_CA_CLIENT_HOME environment variable that points to this location, then enroll the admin identity that was registered during the server start.
-NOTE: If TLS were enabled, you would also have to export the location of the FABRIC_CA_CLIENT_TLS_CERTFILES
+***NOTE: If TLS were enabled, you would also have to export the location of the FABRIC_CA_CLIENT_TLS_CERTFILES***
 ```
 mkdir -p /shared/artifacts/org1/ca/admin
 export FABRIC_CA_CLIENT_HOME=export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/ca/admin
@@ -225,7 +224,7 @@ Now let's practice with some fabric-ca-client commands.  First, let's list all t
 ```
 fabric-ca-client identity list
 ```
-Expected output is an error!  Why? The last variable export we did was for the user identity, so we need to prove that we have the access and authority to run these commands because the user identity is not authorized to.  In short, it is a security measure made possible by cryptographic identities and is the foundation of a secure blockchain network.  We should be worried if we did not get this error.
+**Expected output is an error!**  Why? The last variable export we did was for the user identity, so we need to prove that we have the access and authority to run these commands because the user identity is not authorized to.  In short, it is a security measure made possible by cryptographic identities and is the foundation of a secure blockchain network.  We should be worried if we did not get this error.
 
 How do we list the identities? By exporting the variable that proves we have access to the admin's signing certificate.  We do this by exporting the variable that points back to the admin cert location BEFORE we start running the fabric-ca-client commands.
 ```
@@ -256,7 +255,7 @@ fabric-ca-client identity list --id user
 ```
 The user identity is now affiliated with org1.department1.  
 
-Congratulations! You have successfully set up your own Hyperledger Fabric Certificate Authority on Kubernetes, modified the Fabric CA Server configuration file, registered and enrolled identities, and modified identities and inspected the result.  You are now ready to explore running your own Fabric Certificate Authority in production systems without using Cryptogen! 
+## **Congratulations!** You have successfully set up your own Hyperledger Fabric Certificate Authority on Kubernetes, modified the Fabric CA Server configuration file, registered and enrolled identities, and modified identities and inspected the result.  You are now ready to explore running your own Fabric Certificate Authority in production systems without using Cryptogen! 
 
 Feel free to continue referencing the [Hyperledger Fabric CA documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html) and practicing the fabric-ca-client commands against this running instance.  
 
