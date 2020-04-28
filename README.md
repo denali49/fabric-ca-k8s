@@ -162,14 +162,14 @@ Near the top of the log output, you should see the custom values you entered int
 
 Now we are ready to interact with the Fabric CA Server.  First we will 'enroll' the CA admin that was listed in the registry section of the fabric-ca-server-config.yaml file that we modified.  We could have changed it to something else, but note that it was admin:adminpw.  Since this identity was 'registered' automatically by the start up of the server reading from the config file, we simply need to enroll the admin identity.  
 
-For all other idenities we wish to add, we will need to register them first, then enroll them.  For more information on identity management, please see the Hyperledger Fabric CA Server and Client documentation.
+For all other idenities we wish to add, we will need to register them first, then enroll them.  For more information on identity management, please see the [Hyperledger Fabric CA Server and Client documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html).
 
 Let's get started by getting into the fabric CA container and exporting some environment variables that our client will need.  Find out the pod name of the running pod for the CA by entering the following command:
 ```
 kubectl get pod
 ```
 Next, copy the full pod name because we are going to paste it into our next command when we do `kubectl exec -it [YOUR POD NAME PASTED HERE] -- /binbash`.
-In my case (for reference only, do not copy and paste this!!) it was:
+In my case ***(for reference only, do not copy and paste this!!)*** it was:
 ```
 kubectl exec -it fabric-ca-k8s-696566c87f-xz9hx -- /bin/bash
 ```
@@ -190,7 +190,7 @@ Now that you have a running Fabric CA in Kubernetes, let's register and enroll a
 For this part of the tutorial, it is recommended that you refer to the [Hyperledger Fabric CA documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html) to see and become familiar with the various commands and attributes of managing cryptographic identities.  
 
 Still in the fabric-ca container, run the following command to register an org-admin with specific attributes. 
-Note: Type and attributes are important to understand, so I encourage you to thoroughly review the Hyperledger Fabric CA docs!
+Note: Type and attributes are important to understand, so I encourage you to thoroughly review the [Hyperledger Fabric CA docs](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html)!
 ```
 fabric-ca-client register -d --id.name admin-org1 --id.secret org1AdminPW --id.type admin --id.attrs "hf.Registrar.Roles=*,hf.Registrar.Attributes=*,hf.Revoker=true,hf.GenCRL=true,admin=true:ecert,abac.init=true:ecert" -u http://0.0.0.0:7054
 ```
