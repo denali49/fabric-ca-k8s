@@ -29,13 +29,13 @@ Note: This tutorial assumes a novice level of experience with Kubernetes and kub
 
 ![The Docker Desktop About window print](/assets/dockerdesktop.png?raw=true "Docker Desktop About")
 
-### **Step 1:** Clone the repo and cd into the directory
+## **Step 1:** Clone the repo and cd into the directory
 ```
 git clone https://github.com/denali49/fabric-ca-k8s.git && cd fabric-ca-k8s
 ```
 NOTE: All of the commands in this tutorial must be run from this directory or they will not work!
 
-### **Step 2:** Install Minikube on your local machine or enable it in Docker Desktop
+## **Step 2:** Install Minikube on your local machine or enable it in Docker Desktop
 If you run Docker Desktop, there is a setting that allows you to enable Kubernetes in Docker Desktop.
 
 ![Docker Desktop Preferences Screenshot](/assets/k8sdockerenable.png?raw=true "Docker Desktop Preferences")
@@ -56,7 +56,7 @@ Expected output should be similar to this.  NOTE: As of this update, the hyperki
 
 ![Screenshot of output from the minikube start command](/assets/minikubestartoutput.png?raw=true "output from minikube start command")
 
-### **Step 3:** Verify minikube installation and that it is running on your local machine
+## **Step 3:** Verify minikube installation and that it is running on your local machine
 Run the following command in your terminal.
 ```
 kubectl get all
@@ -66,7 +66,7 @@ Expected output is similar to below, note your ClusterIP will be different.
 ![Screenshot of output from the kubectl get all command](/assets/minikubeconfirm.png?raw=true "output from `kubectl get all` command")
 
 
-### **Step 4:** Set up the persistent volume claim and provision storage
+## **Step 4:** Set up the persistent volume claim and provision storage
 Now run the following kubectl command in the terminal to provision a persistent volume claim (PVC).
 ```
 kubectl apply -f setup-pvc.yaml
@@ -100,7 +100,7 @@ Expected output after running the above command is similar to below.
 
 ![Screenshot of redis pod status](/assets/redispodrun.png?raw=true "redis pod status")
 
-### **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
+## **Step 5:** Init the fabric-ca-server and modify the fabric-ca-server-config.yaml file 
 In the terminal, execute the following command to run a kubernetes job that will 'init' the Fabric CA Server and generate a template file that we can customize.  
 ```
 kubectl apply -f fabric-ca-server-initJob.yaml
@@ -140,7 +140,7 @@ Leave the container by running the following command while still inside the cont
 ```
 exit
 ```
-### **Step 6:** Deploy the fabric-ca-server and perform identity management tasks
+## **Step 6:** Deploy the fabric-ca-server and perform identity management tasks
 Now we are ready to start our Fabric CA Server and interact with it by runnning the following command in the terminal:
 ```
 kubectl apply -f fabric-ca-deployment.yaml
@@ -258,7 +258,9 @@ The user identity is now affiliated with org1.department1.
 
 Congratulations! You have successfully set up your own Hyperledger Fabric Certificate Authority on Kubernetes, modified the Fabric CA Server configuration file, registered and enrolled identities, and modified identities and inspected the result.  You are now ready to explore running your own Fabric Certificate Authority in production systems without using Cryptogen! 
 
-Feel free to continue referencing the Hyperledger Fabric CA documentation and practicing the fabric-ca-client commands against this running instance.  
+Feel free to continue referencing the [Hyperledger Fabric CA documentation](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/users-guide.html) and practicing the fabric-ca-client commands against this running instance.  
+
+## **Cleanup**
 If you are ready to cleanup, run the following commands:
 Type 'exit' to exit the running pod session, then:
 ```
