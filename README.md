@@ -204,7 +204,7 @@ And finally, we'll register a user:
 fabric-ca-client register -d --id.name user --id.secret userpw --id.type client -u http://0.0.0.0:7054
 ```
 
-Now that we have registered our idenities and peer node, we need to enroll them.  We will need to make an directory so the server output can store the credentials in what will become our msp folder.  To do this, we make a directory and then point our FABRIC_CA_CLIENT_HOME export at it.
+Now that we have registered our idenities and peer node, we need to enroll them.  We will need the server output to store the credentials in what will become our msp folder.  To do this, we point our FABRIC_CA_CLIENT_HOME export variable at it.
 Let's start by enrolling the admin identity:
 ```
 export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/org1admin
