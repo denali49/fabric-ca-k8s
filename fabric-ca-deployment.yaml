@@ -10,7 +10,7 @@ spec:
   - protocol: TCP
     port: 7054
     targetPort: 7054
-    name: https    
+    name: http    
 ---
 apiVersion: apps/v1
 kind: Deployment
