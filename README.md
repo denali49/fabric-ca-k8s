@@ -178,7 +178,7 @@ Once you are in the container, make a directory for where we want to store our c
 ***NOTE: If TLS were enabled, you would also have to export the location of the FABRIC_CA_CLIENT_TLS_CERTFILES***
 ```
 mkdir -p /shared/artifacts/org1/ca/admin
-export FABRIC_CA_CLIENT_HOME=export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/ca/admin
+export FABRIC_CA_CLIENT_HOME=/shared/artifacts/org1/ca/admin
 fabric-ca-client enroll -d -u http://admin:adminpw@0.0.0.0:7054
 ```
 You should see an output similar to this:
