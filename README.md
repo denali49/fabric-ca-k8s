@@ -1,4 +1,7 @@
 # **Hyperledger Fabric Certificate Authority on Kubernetes (k8s)**
+
+## Watch this tutorial on [YouTube](https://youtu.be/PbMxqH6bNB8) before you do it on your local machine.
+
 Deploy a Hyperledger Fabric Certificate Authority using Native Kubernetes (k8s) for Production Hyperledger Fabric Networks Deployed on Cloud Infrastructure.
 
 ## **Purpose**
