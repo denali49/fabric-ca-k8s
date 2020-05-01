@@ -3,6 +3,9 @@
 ## Watch this tutorial on [YouTube](https://youtu.be/PbMxqH6bNB8) before you do it on your local machine.
 
 Deploy a Hyperledger Fabric Certificate Authority using Native Kubernetes (k8s) for Production Hyperledger Fabric Networks Deployed on Cloud Infrastructure.
+# ***IMPORTANT NOTE: DO NOT USE THIS CONFIGURATION IN PRODUCTION AS TLS IS NOT ENABLED, FOR PRACTICE ONLY!***
+
+If you do not wish to use minikube and would rather deploy in the cloud, you need to ensure that you can provision storage and a peristent volume claim against that storage as each cloud provider is slightly different.  You must be able to access your cluster before proceeding if using cloud providers such as IBM, Google Cloud, AWS, Digital Ocean, or Azure.  You can check access by running `kubectl get all` in your terminal after you have downloaded the .kubeconfig file from your provider.
 
 ## **Purpose**
 Learn how to configure and deploy a Hyperledger Fabric Certificate Authority on Kubernetes for a production network and manage cryptographic identities without using cryptogen.
